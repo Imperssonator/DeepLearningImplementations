@@ -10,7 +10,6 @@ import data_utils as du
 
 FLAGS = tf.app.flags.FLAGS
 
-
 def train_model():
 
     # Setup session
