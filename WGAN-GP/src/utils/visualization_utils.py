@@ -2,6 +2,7 @@ import os
 import numpy as np
 import tensorflow as tf
 import matplotlib.pylab as plt
+plt.switch_backend('agg')
 
 FLAGS = tf.app.flags.FLAGS
 

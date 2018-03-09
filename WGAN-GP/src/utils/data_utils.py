@@ -22,7 +22,7 @@ def input_data(sess):
 
     FLAGS = tf.app.flags.FLAGS
 
-    list_images = glob.glob(os.path.join(FLAGS.celebA_path, "*.jpg"))
+    list_images = glob.glob(os.path.join(FLAGS.celebA_path, "*.png"))
 
     # Read each JPEG file
 

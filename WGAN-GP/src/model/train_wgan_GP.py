@@ -22,11 +22,15 @@ def train_model():
     #######################
     # Instantiate generator
     #######################
-    list_filters = [256, 128, 64, 3]
+    output_shape = X_real.get_shape().as_list()[1:]
+    if FLAGS.data_format=="NHWC":
+        final_gen_filters = output_shape[-1]
+    else:
+        final_gen_filters = output_shape[0]
+    list_filters = [256, 128, 64, final_gen_filters]
     list_strides = [2] * len(list_filters)
     list_kernel_size = [3] * len(list_filters)
     list_padding = ["SAME"] * len(list_filters)
-    output_shape = X_real.get_shape().as_list()[1:]
     G = models.Generator(list_filters, list_kernel_size, list_strides, list_padding, output_shape,
                          batch_size=FLAGS.batch_size, data_format=FLAGS.data_format)
 
@@ -43,8 +47,8 @@ def train_model():
     ###########################
     # Instantiate optimizers
     ###########################
-    G_opt = tf.train.AdamOptimizer(learning_rate=1E-4, name='G_opt', beta1=0.5, beta2=0.9)
-    D_opt = tf.train.AdamOptimizer(learning_rate=1E-4, name='D_opt', beta1=0.5, beta2=0.9)
+    G_opt = tf.train.AdamOptimizer(learning_rate=FLAGS.learning_rate, name='G_opt', beta1=0.5, beta2=0.9)
+    D_opt = tf.train.AdamOptimizer(learning_rate=FLAGS.learning_rate, name='D_opt', beta1=0.5, beta2=0.9)
 
     ###########################
     # Instantiate model outputs
@@ -57,7 +61,7 @@ def train_model():
     # output images
     X_G_output = du.unnormalize_image(X_fake)
     X_real_output = du.unnormalize_image(X_real)
-
+    
     D_real = D(X_real)
     D_fake = D(X_fake, reuse=True)
 
@@ -73,14 +77,14 @@ def train_model():
         minval=0.,
         maxval=1.
     )
-    X_hat = X_real + epsilon * (X_fake - X_real)
+    X_hat = epsilon * X_real + ( 1 - epsilon ) * X_fake
     D_X_hat = D(X_hat, reuse=True)
     grad_D_X_hat = tf.gradients(D_X_hat, [X_hat])[0]
     if FLAGS.data_format == "NCHW":
         red_idx = [1]
     else:
         red_idx = [-1]
-    slopes = tf.sqrt(tf.reduce_sum(tf.square(grad_D_X_hat), reduction_indices=red_idx))
+    slopes = tf.sqrt(1e-8 + tf.reduce_sum(tf.square(grad_D_X_hat), reduction_indices=red_idx))
     gradient_penalty = tf.reduce_mean((slopes - 1.)**2)
     D_loss += 10 * gradient_penalty
 
