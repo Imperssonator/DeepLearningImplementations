@@ -16,14 +16,26 @@ def save_image(data, data_format, e, suffix=None):
     Xr = X_real[:8]
     
     for i,gi in enumerate(Xg):
+        
+        if gi.shape[-1]<3:
+            img = gi[:,:,0]
+        else:
+            img = gi
+        
         io.imsave(os.path.join(FLAGS.fig_dir,
                                "epoch{}_sample{}_gen.png".format(e,i)),
-                  gi)
+                  img)
     
     for i,ri in enumerate(Xr):
+        
+        if ri.shape[-1]<3:
+            img = ri[:,:,0]
+        else:
+            img = ri
+        
         io.imsave(os.path.join(FLAGS.fig_dir,
                                "epoch{}_sample{}_real.png".format(e,i)),
-                  ri)
+                  img)
 
 
 def get_stacked_tensor(X1, X2):
