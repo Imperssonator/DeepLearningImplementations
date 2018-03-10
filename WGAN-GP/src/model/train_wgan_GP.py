@@ -127,9 +127,12 @@ def train_model():
     # Start training
     ############################
 
-    # Initialize session
+    # Initialize session or resume from saved checkpoint
     saver = tu.initialize_session(sess)
-
+    if FLAGS.resume_dir:
+        saver.restore(sess,
+                      tf.train.latest_checkpoint(FLAGS.resume_dir))
+    
     # Start queues
     tu.manage_queues(sess)
 

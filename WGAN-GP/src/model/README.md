@@ -40,6 +40,8 @@ optional arguments:
     --fig_dir FIG_DIR     Where to save figures.
     --raw_dir RAW_DIR     Where raw data is saved
     --data_dir DATA_DIR   Where processed data is saved
+    --resume_dir RES_DIR  Where to find model checkpoints to resume training
+
 
 ## Example
 

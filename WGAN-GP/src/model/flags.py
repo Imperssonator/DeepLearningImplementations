@@ -10,6 +10,7 @@ def define_flags():
     # Run mode
     ############
     tf.app.flags.DEFINE_string('run', None, "Which operation to run. [train|inference]")
+    tf.app.flags.DEFINE_string('resume_dir', None, "If resuming training, directory of model checkpoints")
 
     ##########################
     # Training parameters
