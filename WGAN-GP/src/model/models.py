@@ -165,6 +165,5 @@ class Discriminator(Model):
             # x = tf.concat([x, x_mbd], axis=1)
 
             x = layers.linear(x, 1, bias=False)
-            x = tf.sigmoid(x)
 
             return x
