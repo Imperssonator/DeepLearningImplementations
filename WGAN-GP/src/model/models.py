@@ -18,7 +18,7 @@ class Model(object):
 
 class Generator(Model):
     def __init__(self, list_filters, list_kernel_size, list_strides, list_padding, output_shape,
-                 name="generator", batch_size=32, filters=512, dset="celebA", data_format="NCHW"):
+                 name="generator", batch_size=32, dset="celebA", data_format="NCHW"):
 
         super(Generator, self).__init__(name)
 
@@ -32,17 +32,17 @@ class Generator(Model):
             self.output_w = output_shape[1]
 
         if dset == "mnist":
-            self.start_dim = int(self.output_h / 4)
+            self.start_dim = int(self.output_h / len(list_filters))
             self.nb_upconv = 2
         else:
-            self.start_dim = int(self.output_h / 16)
+            self.start_dim = int(self.output_h / (2**len(list_filters)))
             self.nb_upconv = 4
 
         self.output_shape = output_shape
         self.dset = dset
         self.name = name
         self.batch_size = batch_size
-        self.filters = filters
+        self.filters = list_filters[0]
         self.list_filters = list_filters
         self.list_kernel_size = list_kernel_size
         self.list_padding = list_padding

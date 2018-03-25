@@ -26,7 +26,7 @@ def train_model():
         final_gen_filters = output_shape[-1]
     else:
         final_gen_filters = output_shape[0]
-    list_filters = [256, 128, 64, final_gen_filters]
+    list_filters = [512, 256, 128, 64, final_gen_filters]
     list_strides = [2] * len(list_filters)
     list_kernel_size = [3] * len(list_filters)
     list_padding = ["SAME"] * len(list_filters)
@@ -36,7 +36,7 @@ def train_model():
     ###########################
     # Instantiate discriminator
     ###########################
-    list_filters = [32, 64, 128, 256]
+    list_filters = [32, 64, 128, 256, 512]
     list_strides = [2] * len(list_filters)
     list_kernel_size = [3] * len(list_filters)
     list_padding = ["SAME"] * len(list_filters)
