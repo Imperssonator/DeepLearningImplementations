@@ -26,9 +26,9 @@ def train_model():
         final_gen_filters = output_shape[-1]
     else:
         final_gen_filters = output_shape[0]
-    list_filters = [512, 256, 128, 64, final_gen_filters]
+    list_filters = [256, 128, 96, 64, 48, final_gen_filters]
     list_strides = [2] * len(list_filters)
-    list_kernel_size = [3] * len(list_filters)
+    list_kernel_size = [5] * len(list_filters)
     list_padding = ["SAME"] * len(list_filters)
     G = models.Generator(list_filters, list_kernel_size, list_strides, list_padding, output_shape,
                          batch_size=FLAGS.batch_size, data_format=FLAGS.data_format)
@@ -36,9 +36,9 @@ def train_model():
     ###########################
     # Instantiate discriminator
     ###########################
-    list_filters = [32, 64, 128, 256, 512]
+    list_filters = [32, 48, 64, 96, 128, 256]
     list_strides = [2] * len(list_filters)
-    list_kernel_size = [3] * len(list_filters)
+    list_kernel_size = [5] * len(list_filters)
     list_padding = ["SAME"] * len(list_filters)
     D = models.Discriminator(list_filters, list_kernel_size, list_strides, list_padding,
                              FLAGS.batch_size, data_format=FLAGS.data_format)
